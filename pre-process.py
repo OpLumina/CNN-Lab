@@ -10,8 +10,6 @@ Table of Contents:
 2. Converting to Grayscale
 3. Re-size image to 64x64
 4. Convert Image to Grayscale Numpy Array Values
-5. Run a sliding window filter pass
-64.
 """
 # ========================================================================================
 # Step 1: Arguments and imports
@@ -83,7 +81,7 @@ def resize_image_preserve_aspect_ratio(image):
 resized_image = resize_image_preserve_aspect_ratio(img_grayscale)
 
 # ========================================================================================
-# Make a Numpy Array of the 64x64 pixel processed image
+# Step 4: Make a Numpy Array of the 64x64 pixel processed image
 # ========================================================================================
 image_array = np.array(resized_image)
 
