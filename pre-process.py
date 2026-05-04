@@ -32,7 +32,7 @@ image_path = sys.argv[1]
 # Step 2: Converting to Grayscale
 # ========================================================================================
 img = Image.open(image_path)
-img_grayscale = img.convert('L')
+img_grayscale = img.convert('1')  # (I'm using 1 for 1-bit pixels, but you can use 'L' if you want, which converts it to grayscale)
 
 
 
