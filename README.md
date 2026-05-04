@@ -9,7 +9,7 @@ I'm using the dataset at https://www.kaggle.com/datasets/olafkrastovski/handwrit
 Feel free to follow along on my progress
 
 **Done Today:**
-* Image Color Normalization and Resizing to 64x64
-* Turning the Processed image into a NumPy Array
+* Image Color Normalization and Resizing to 64x64 **(pre-process.py)**
+* Turning the Processed image into a NumPy Array **(pre-process.py)**
 
 ## 5/5/2026:
