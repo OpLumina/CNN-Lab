@@ -87,24 +87,4 @@ resized_image = resize_image_preserve_aspect_ratio(img_grayscale)
 # ========================================================================================
 image_array = np.array(resized_image)
 
-print(f"Image Array Shape: {image_array.shape}")  # Debugging step
-
-if image_array.ndim != 2:
-    raise ValueError("Expected a 2D grayscale array. Got shape:", image_array.shape)
-
-
-
-# ========================================================================================
-# Sliding Window (3x3)
-# ========================================================================================
-def win3x3(img, pad=True):
-    """Return a view of all 3×3 windows of a 2‑D gray image."""
-    if pad:                               # same‑padding → keep original size
-        img = np.pad(img, 1, mode='constant')
-    h, w = img.shape
-    # output size = (h‑2, w‑2) after padding (or original size if padded)
-    shape   = (h-2, w-2, 3, 3)
-    strides = img.strides + img.strides
-    return as_strided(img, shape=shape, strides=strides)
-
-windows = win3x3(image_array)
+print(f"Image Array Shape: {image_array.shape}")  # Debug
