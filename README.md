@@ -10,5 +10,6 @@ Feel free to follow along on my progress
 
 **Done Today:**
 * Image Color Normalization and Resizing to 64x64
+* Turning the Processed image into a NumPy Array
 
 ## 5/5/2026:
