@@ -29,10 +29,11 @@ image_path = sys.argv[1]
 
 
 # ========================================================================================
-# Step 2: Converting to Grayscale
+# Step 2: Converting to Black/White (Or grayscale
 # ========================================================================================
 img = Image.open(image_path)
-img_grayscale = img.convert('1')  # (I'm using 1 for 1-bit pixels, but you can use 'L' if you want, which converts it to grayscale)
+# (I'm using '1' for 1-bit pixels, but you can use 'L' if you want, which converts it to grayscale)
+img_grayscale = img.convert('1')
 
 
 
