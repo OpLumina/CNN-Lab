@@ -54,7 +54,7 @@ def resize_image_preserve_aspect_ratio(image):
     else:
         width, height = image.size
     
-    # Calculate new size maintaining aspect ratio
+    # Calculate new size (while maintaining image ratio)
     if width > height:
         new_width = 64
         new_height = int(height * (new_width / width))
