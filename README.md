@@ -9,7 +9,8 @@ I'm using the dataset at https://www.kaggle.com/datasets/olafkrastovski/handwrit
 Feel free to follow along on my progress
 
 **Done Today:**
-* Image Color Normalization and Resizing to 66x66 (64x64 with padding so I can do a 3x3 sliding window) **(pre-process.py)**
+* 1-bit Image Color Normalization (black=1, white=0) **(pre-process.py)**
+* Resizing to 28x28 while keeping image ratios the same **(pre-process.py)**
 * Turning the Processed image into a NumPy Array **(pre-process.py)**
 
 **To Do:**
