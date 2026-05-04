@@ -11,5 +11,7 @@ Feel free to follow along on my progress
 **Done Today:**
 * Image Color Normalization and Resizing to 64x64 **(pre-process.py)**
 * Turning the Processed image into a NumPy Array **(pre-process.py)**
+**To Do:**
+* Feature extraction: 3x3 sliding window converts the 64x64 image into 32x32 and 16x16
 
 ## 5/5/2026:
