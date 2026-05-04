@@ -11,6 +11,7 @@ Feel free to follow along on my progress
 **Done Today:**
 * Image Color Normalization and Resizing to 66x66 (64x64 with padding of 1 on both sides so I can do a 3x3 sliding window) **(pre-process.py)**
 * Turning the Processed image into a NumPy Array **(pre-process.py)**
+
 **To Do:**
 * Feature extraction: 3x3 sliding window converts the 64x64 image into 32x32 and 16x16
 
