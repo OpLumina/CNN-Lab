@@ -1,18 +1,14 @@
 import numpy as np
 random_array = np.random.rand(28, 28)
 
-def relu(number):
-    number = n
-    if n <= 0:
-        n = 0
-        return n
-    else:
-        return n
+def relu(x: float) -> float:
+    return max(0, x)
 
 
-# Extracts an array from another array, x and y coordinate starting from top left of array to extract,
-# width = width of array to extract, height = height of array to extract,
-# array = array to extract from
+def extract_array_from_array(x, y, width, height, array):
+    extracted_array = array[y:y+height, x:x+width].copy()
+    return extracted_array
+
 """
 E.G. Extract the 3x3 matrix that is at 1,1 from A1
 extract_array_from_array(1,1,3,3,A1)
@@ -21,17 +17,11 @@ A1 =
 [x,a,a,a]
 [x,a,a,a]
 [x,a,a,a]
-extracted array:
+extracted array =
 [a,a,a]
 [a,a,a]
 [a,a,a]
-"""
 
-def extract_array_from_array(x, y, width, height, array):
-    extracted_array = array[y:y+height, x:x+width].copy()
-    return extracted_array
-
-"""
 Test:
 random_array = np.random.rand(4, 5)
 extracted_array = extract_array_from_array(1,1,3,3,random_array)
@@ -47,15 +37,21 @@ print(x,y)
 print(random_array)
 """
 
-def feature_map(filter_array, main_array, stride, bias, total_iterations_needed="placeholder", horizontal_iterations_needed="placeholder", vertical_iterations_needed="placeholder"):
-    # Set an empty numpy array
+
+
+
+
+
+
+
+
+
+def feature_map(filter_array,main_array,stride,bias,total_iterations_needed="placeholder",horizontal_iterations_needed="placeholder",vertical_iterations_needed="placeholder"):
     feature_map = np.array([])
 
-    # Array sizes
     window_height, window_width = filter_array.shape
     main_array_height, main_array_width = main_array.shape
 
-    # Iterations calcs if not set
     if horizontal_iterations_needed == "placeholder":
         horizontal_iterations_needed = ((main_array_width - window_width) // stride) + 1
     if vertical_iterations_needed == "placeholder":
@@ -63,40 +59,48 @@ def feature_map(filter_array, main_array, stride, bias, total_iterations_needed=
     if total_iterations_needed == "placeholder":
         total_iterations_needed = horizontal_iterations_needed * vertical_iterations_needed
 
-    # Setting original x and y placement for the extraction to top left
-    x, y = 0, 0
-    for i in range(total_iterations_needed):
-        extracted_main_array = extract_array_from_array(x, y, window_width, window_height, main_array)
+    for y in range(0, vertical_iterations_needed * stride, stride):
+        for x in range(0, horizontal_iterations_needed * stride, stride):
+            extracted_main_array = extract_array_from_array(x, y, window_width, window_height, main_array)
+            feature_map_element = relu(np.einsum('ij,ij', extracted_main_array, filter_array) + bias)
+            feature_map = np.append(feature_map, feature_map_element)
 
-        # Element = Sum(extracted_main_array * filter_array) + bias
-        feature_map_element = np.einsum('ij,ij', extracted_main_array, filter_array) + bias
-        feature_map = np.append(feature_map, feature_map_element)
-
-        # For each iteration move to the right
-        # If moving to the right gets to the end, move down a stride and set x back to 0
-        # If the array goes over the border with the stride, error and exit
-        if x + stride < horizontal_iterations_needed * stride:
-            x += stride
-        elif x + stride > horizontal_iterations_needed * stride:
-            print("Error: Invalid stride caused overflow in x values, terminating.")
-            exit()
-        else:
-            x = 0
-            if y + stride < vertical_iterations_needed * stride:
-                y += stride
-            elif y + stride > vertical_iterations_needed * stride:
-                print("Error: Invalid stride caused overflow in y values – terminating.")
-                exit()
-            else:
-                pass
-
-    # Reshapes into the feature map (each iteration is a value)
-    feature_map = np.reshape(feature_map, (vertical_iterations_needed, horizontal_iterations_needed))
+    feature_map = np.reshape(feature_map,(vertical_iterations_needed,horizontal_iterations_needed))
     return feature_map
 
+
+"""
 # test
-random_array = np.random.rand(6, 6)
-random_filter_array = np.random.rand(3, 3)
+random_array = np.random.randint(-20, 10, size=(6, 6))
+random_filter_array = np.random.randint(-20, 100, size=(3, 3))
 feature_map_test = feature_map(random_filter_array, random_array, 1, 0)
-print("Feature Map:",feature_map_test)
-print()
+print("Feature Map:\n",feature_map_test)
+print("Main Array:\n",random_array)
+print("Filter:\n", random_filter_array)
+"""
+
+
+
+def maxpool(main_array,window_size=2,stride=2,horizontal_iterations_needed=None,vertical_iterations_needed=None,total_iterations_needed=None,):
+    h, w = main_array.shape
+    if horizontal_iterations_needed is None:
+        horizontal_iterations_needed = (w - window_size) // stride + 1
+    if vertical_iterations_needed   is None:
+        vertical_iterations_needed   = (h - window_size) // stride + 1
+    if total_iterations_needed is None:
+        total_iterations_needed = horizontal_iterations_needed * vertical_iterations_needed
+
+    pool_vals = []
+
+    for y in range(vertical_iterations_needed):
+        for x in range(horizontal_iterations_needed):
+            x = x * stride
+            y = y * stride
+
+            window = extract_array_from_array(x, y, window_size, window_size, main_array)
+            pool_vals.append(window.max())
+
+    pool_matrix = np.array(pool_vals, dtype=main_array.dtype)
+    pool_matrix = pool_matrix.reshape(vertical_iterations_needed,horizontal_iterations_needed)
+
+    return pool_matrix
