@@ -38,14 +38,6 @@ print(random_array)
 """
 
 
-
-
-
-
-
-
-
-
 def feature_map(filter_array,main_array,stride,bias,total_iterations_needed="placeholder",horizontal_iterations_needed="placeholder",vertical_iterations_needed="placeholder"):
     feature_map = np.array([])
 
