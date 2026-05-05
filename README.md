@@ -10,7 +10,7 @@ This is the start of a personal project I'm coding with a few people to understa
 * 1-bit Image Color Normalization (black=1, white=0) **(pre-process.py)**
 * Resizing to 28x28 while keeping image ratios the same **(pre-process.py)**
 * Turning the Processed image into a NumPy Array **(pre-process.py)**
-* Dataset Generation
+* Dataset Generation **(generate_dataset.py)**
 
 **Decided to change from that dataset to a different idea of making my own with different fonts and adding basic noise**
 
