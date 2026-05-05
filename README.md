@@ -15,8 +15,11 @@ This is the start of a personal project I'm coding with a few people to understa
 **Decided to change from that dataset to a different idea of making my own with different fonts and adding basic noise**
 
 **To Do:**
-* Feature extraction: 3x3 sliding window converts the 64x64 image into 32x32 and 16x16
+* Feature extraction: 3x3 sliding window
 
 ## 5/5/2026:
 **Done Today:**
 * Feature Extraction Function **(calculation-functions.py)** with args for window instead of a set 3x3
+
+**To Do:**
+* Max Pooling Function
