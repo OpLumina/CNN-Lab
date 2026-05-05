@@ -94,11 +94,9 @@ def feature_map(filter_array, main_array, stride, bias, total_iterations_needed=
     feature_map = np.reshape(feature_map, (vertical_iterations_needed, horizontal_iterations_needed))
     return feature_map
 
-"""
 # test
 random_array = np.random.rand(6, 6)
 random_filter_array = np.random.rand(3, 3)
 feature_map_test = feature_map(random_filter_array, random_array, 1, 0)
 print("Feature Map:",feature_map_test)
 print()
-"""
