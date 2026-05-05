@@ -19,4 +19,4 @@ This is the start of a personal project I'm coding with a few people to understa
 
 ## 5/5/2026:
 **Done Today:**
-* Feature Extraction Function **(calculation-functions.py)**
+* Feature Extraction Function **(calculation-functions.py)** with args for window instead of a set 3x3
