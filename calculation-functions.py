@@ -38,6 +38,8 @@ print(random_array)
 """
 
 
+
+
 def feature_map(filter_array,main_array,stride,bias,total_iterations_needed="placeholder",horizontal_iterations_needed="placeholder",vertical_iterations_needed="placeholder"):
     feature_map = np.array([])
 
@@ -82,17 +84,12 @@ def maxpool(main_array,window_size=2,stride=2,horizontal_iterations_needed=None,
     if total_iterations_needed is None:
         total_iterations_needed = horizontal_iterations_needed * vertical_iterations_needed
 
-    pool_vals = []
+    pool_vals = np.array([])                     # accumulate in a flat array
+    for y in range(0, vertical_iterations_needed * stride, stride):
+        for x in range(0, horizontal_iterations_needed * stride, stride):
+            window = extract_array_from_array(x,y,window_size, window_size,main_array)
+            # store the maximum value of the window
+            pool_vals = np.append(pool_vals, window.max())
 
-    for y in range(vertical_iterations_needed):
-        for x in range(horizontal_iterations_needed):
-            x = x * stride
-            y = y * stride
-
-            window = extract_array_from_array(x, y, window_size, window_size, main_array)
-            pool_vals.append(window.max())
-
-    pool_matrix = np.array(pool_vals, dtype=main_array.dtype)
-    pool_matrix = pool_matrix.reshape(vertical_iterations_needed,horizontal_iterations_needed)
-
+    pool_matrix = np.reshape(pool_vals,(vertical_iterations_needed,horizontal_iterations_needed))
     return pool_matrix
