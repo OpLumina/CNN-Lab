@@ -19,6 +19,7 @@ This is the start of a personal project I'm coding with a few people to understa
 ## 5/5/2026:
 **Done Today:**
 * Feature Extraction Function **(calculation_functions.py)** with args for window instead of a set 3x3
+* Added a Dataset generation script that pulls from windows fonts and generates a few different datasets for numbers 0-9
 
 **To Do:**
 * Max Pooling Function
