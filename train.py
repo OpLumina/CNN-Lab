@@ -50,7 +50,7 @@ def load_images(root="./dataset"):
         for img_path in glob.glob(os.path.join(root, str(digit), "*")):
             try:
                 img = pre_process.load_image(img_path)
-                resized = pre_process.resize_image_preserve_aspect_ratio(img)
+                resized = pre_process.resize_image(img)
                 images.append(pre_process.to_numpy(resized))
                 labels.append(digit)
             except Exception as e:
