@@ -55,7 +55,7 @@ Extracted kernel is multiplied by a 3D filter array (filter_depth, height, width
 * Training continuing from checkpoint
 
 
-**5/8/2026:**
+## 5/8/2026:
 **Done Today:**
 * Removed unneccesary pre-processing function steps
 * inference.py
