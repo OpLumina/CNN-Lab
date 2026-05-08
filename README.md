@@ -41,7 +41,7 @@ Extracted kernel is multiplied by a 3D filter array (filter_depth, height, width
 * Added fully connected (linear) layer with forward and backward pass
 * Added forward_pass and backward_pass end-to-end functions in **(calculation_functions.py)**
 * Added **train.py** with full training loop:
-    * Loads and preprocesses dataset from ./dataset/<digit>/
+    * Loads and preprocesses dataset from `./dataset/(digit)/`
     * Shuffles data before train/val split to ensure all digits are represented in validation
     * 80/20 train/validation split
     * Mini-batch gradient descent with configurable batch size (default 64)
