@@ -26,6 +26,7 @@ This is the start of a personal project I'm coding with a few people to understa
 
 ## 5/6/2026-5/7/2026:
 **Done These Days:**
+* Added a Dataset cleaning script (Completely Vibe Coded) to remove the useless fonts in the dataset generation. run `clean_dataset.py` after `generate-dataset.py`
 * Feature extraction bug fix on counters
 * Filter and weight initialization
 * Max pooling fixes
