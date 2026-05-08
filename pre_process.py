@@ -34,14 +34,16 @@ def to_numpy(image):
     return arr
 
 
-def main():
-    if image_path is None:
+def main(image_path_arg=None):
+    path = image_path_arg or image_path
+    if path is None:
         sys.exit("Usage: python pre_process.py <image_path>")
 
-    img = load_image(image_path)
+    img = load_image(path)
     resized = resize_image(img)
     image_array = to_numpy(resized)
     print(f"Image Array Shape: {image_array.shape}")
+    return image_array
 
 if __name__ == "__main__":
     main()
