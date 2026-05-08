@@ -26,7 +26,7 @@ This is the start of a personal project I'm coding with a few people to understa
 
 ## 5/6/2026-5/7/2026:
 **Done These Days:**
-* Added a Dataset cleaning script (Completely Vibe Coded) to remove the useless fonts in the dataset generation. run `clean_dataset.py` after `generate-dataset.py`
+* Added a Dataset cleaning script (Completely Vibe Coded) to remove the useless fonts in the dataset generation. run `clean_dataset.py` after `generate-dataset.py` (webdings, wingdings, symbol, etc.)
 * Feature extraction bug fix on counters
 * Filter and weight initialization
 * Max pooling fixes
@@ -48,7 +48,6 @@ Extracted kernel is multiplied by a 3D filter array (filter_depth, height, width
     * SGD weight updates across filters, conv bias, fc weights, fc bias
     * Saves best model checkpoint by validation loss to ./models/
     * Resume training from checkpoint with --model flag
-* Dataset cleaned of symbol/dingbat fonts that don't render standard digit glyphs (webdings, wingdings, symbol, etc.)
 
 **Training Results So Far:**
 * 1220 images across 10 classes (~122 per digit, ~130 fonts)
