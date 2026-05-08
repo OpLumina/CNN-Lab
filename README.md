@@ -54,6 +54,12 @@ Extracted kernel is multiplied by a 3D filter array (filter_depth, height, width
 * Best val loss: 0.6675 | Best val acc: ~86% at epoch 30
 * Training continuing from checkpoint
 
+
+**5/8/2026:**
+**Done Today:**
+* Removed unneccesary pre-processing function steps
+* inference.py
+
 **Architecture:**
 * Input: 28x28 grayscale image
 * Conv layer: 8 filters, 3x3 kernel, stride 1, ReLU
