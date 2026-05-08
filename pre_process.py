@@ -9,13 +9,8 @@ def load_image(image_path):
     return Image.open(image_path).convert('1')
 
 
-def resize_image_preserve_aspect_ratio(image):
-    if isinstance(image, str):
-        with Image.open(image) as img:
-            width, height = img.size
-    else:
-        width, height = image.size
-
+def resize_image(image):
+    width, height = image.size
     if width > height:
         new_width = 28
         new_height = int(height * (new_width / width))
@@ -28,25 +23,25 @@ def resize_image_preserve_aspect_ratio(image):
     left_pad = (28 - new_width) // 2
     top_pad = (28 - new_height) // 2
 
-    img_final = Image.new('RGB', (28, 28), color='black')
+    img_final = Image.new('1', (28, 28), color=0)
     img_final.paste(img_resized, (left_pad, top_pad))
 
-    return img_final.convert('L')
+    return img_final
 
 
 def to_numpy(image):
     arr = np.array(image, dtype=np.float32)
-    arr /= 255.0
     return arr
 
 
-if __name__ == "__main__":
+def main():
     if image_path is None:
         sys.exit("Usage: python pre_process.py <image_path>")
 
     img = load_image(image_path)
-    resized = resize_image_preserve_aspect_ratio(img)
+    resized = resize_image(img)
     image_array = to_numpy(resized)
-
-    Image.fromarray(image_array).save("image_output.png")
     print(f"Image Array Shape: {image_array.shape}")
+
+if __name__ == "__main__":
+    main()
