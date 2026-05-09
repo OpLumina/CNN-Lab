@@ -47,7 +47,7 @@ def feature_map(filter_array, main_array, stride, bias):
     main_array_height, main_array_width = main_array.shape
 
     horizontal_iterations_needed = ((main_array_width - window_width) // stride) + 1
-    vertical_iterations_needed   = ((main_array_height - window_height) // stride) + 1
+    vertical_iterations_needed = ((main_array_height - window_height) // stride) + 1
 
     four_d_feature_map_elements = []
 
@@ -87,8 +87,8 @@ def conv_backward(upstream_grad, filter_bank, main_array, stride, bias):
     out_h, out_w = upstream_grad.shape[1:]
 
     filter_gradients = np.zeros_like(filter_bank, dtype=np.float64)
-    bias_gradients   = np.zeros_like(bias, dtype=np.float64)
-    input_gradients  = np.zeros_like(main_array, dtype=np.float64)
+    bias_gradients = np.zeros_like(bias, dtype=np.float64)
+    input_gradients = np.zeros_like(main_array, dtype=np.float64)
 
     for filter_idx in range(n_filters):
         for out_row in range(out_h):
@@ -96,9 +96,9 @@ def conv_backward(upstream_grad, filter_bank, main_array, stride, bias):
                 y = out_row * stride
                 x = out_col * stride
                 input_patch = extract_array_from_array(x, y, k_w, k_h, main_array)
-                local_grad  = upstream_grad[filter_idx, out_row, out_col]
+                local_grad = upstream_grad[filter_idx, out_row, out_col]
                 filter_gradients[filter_idx] += local_grad * input_patch
-                bias_gradients[filter_idx]   += local_grad
+                bias_gradients[filter_idx] += local_grad
                 input_gradients[y:y + k_h, x:x + k_w] += local_grad * filter_bank[filter_idx].sum(axis=0)
 
     if depth == 1:
@@ -110,7 +110,7 @@ def conv_backward(upstream_grad, filter_bank, main_array, stride, bias):
 def maxpool(main_array, window_size=2, stride=2):
     depth, h, w = main_array.shape
     horizontal_iterations_needed = (w - window_size) // stride + 1
-    vertical_iterations_needed   = (h - window_size) // stride + 1
+    vertical_iterations_needed = (h - window_size) // stride + 1
 
     pooled_array = np.zeros((depth, vertical_iterations_needed, horizontal_iterations_needed))
 
@@ -125,7 +125,7 @@ def maxpool(main_array, window_size=2, stride=2):
 
 def maxpool_backward(upstream_grad, pooled, maxpooled_input):
     depth, h_in, w_in = maxpooled_input.shape
-    _, h_out, w_out   = upstream_grad.shape
+    _, h_out, w_out = upstream_grad.shape
     window = 2
     stride = 2
 
@@ -137,8 +137,8 @@ def maxpool_backward(upstream_grad, pooled, maxpooled_input):
                 y_start = row * stride
                 x_start = col * stride
                 input_window = maxpooled_input[d, y_start:y_start + window, x_start:x_start + window]
-                max_val      = np.max(input_window)
-                mask         = (input_window == max_val).astype(float)
+                max_val = np.max(input_window)
+                mask = (input_window == max_val).astype(float)
                 input_gradients[d, y_start:y_start + window, x_start:x_start + window] += mask * upstream_grad[d, row, col]
 
     return input_gradients
@@ -155,8 +155,8 @@ def dloss_dlogits(pred_probs, target_one_hot):
 
 def linear_backward(upstream_grad, flat, fc_W):
     weight_gradients = np.outer(flat, upstream_grad)
-    bias_gradients   = upstream_grad.copy()
-    input_gradients  = fc_W @ upstream_grad
+    bias_gradients = upstream_grad.copy()
+    input_gradients = fc_W @ upstream_grad
     return weight_gradients, bias_gradients, input_gradients
 
 def unflatten(input_gradients, pooled_shape):
@@ -167,19 +167,19 @@ def unflatten(input_gradients, pooled_shape):
 
 def forward_pass(image, filter_bank, bias, fc_weights, fc_bias):
     conv_out, pre_relu = feature_map(filter_bank, image, stride=1, bias=bias)
-    pooled  = maxpool(conv_out)
-    flat    = flatten(pooled)
-    logits  = np.dot(flat, fc_weights) + fc_bias
-    probs   = softmax(logits)
-    cache   = (conv_out, pre_relu, pooled, flat, logits)
+    pooled = maxpool(conv_out)
+    flat = flatten(pooled)
+    logits = np.dot(flat, fc_weights) + fc_bias
+    probs = softmax(logits)
+    cache = (conv_out, pre_relu, pooled, flat, logits)
     return probs, cache
 
 def backward_pass(image, filter_bank, bias, fc_weights, fc_bias, target_one_hot, cache):
     conv_out, pre_relu, pooled, flat, logits = cache
-    output_grad                              = dloss_dlogits(softmax(logits), target_one_hot)
-    fc_weight_grad, fc_bias_grad, flat_grad  = linear_backward(output_grad, flat, fc_weights)
-    pooled_grad                              = unflatten(flat_grad, pooled.shape)
-    pre_relu_grad                            = maxpool_backward(pooled_grad, pooled, conv_out)
-    conv_grad                                = relu_backward(pre_relu_grad, pre_relu)
-    filter_grad, conv_bias_grad, _           = conv_backward(conv_grad, filter_bank, image, stride=1, bias=bias)
+    output_grad = dloss_dlogits(softmax(logits), target_one_hot)
+    fc_weight_grad, fc_bias_grad, flat_grad = linear_backward(output_grad, flat, fc_weights)
+    pooled_grad = unflatten(flat_grad, pooled.shape)
+    pre_relu_grad = maxpool_backward(pooled_grad, pooled, conv_out)
+    conv_grad = relu_backward(pre_relu_grad, pre_relu)
+    filter_grad, conv_bias_grad, _ = conv_backward(conv_grad, filter_bank, image, stride=1, bias=bias)
     return filter_grad, conv_bias_grad, fc_weight_grad, fc_bias_grad
